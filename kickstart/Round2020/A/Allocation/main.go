@@ -5,17 +5,22 @@ import (
 	"fmt"
 	"os"
 	"sort"
-	"strconv"
-	"strings"
 )
 
 func main() {
-	reader := NewReader()
-	T := readInt(reader)
+	reader := bufio.NewReader(os.Stdin)
+	T := 0
+	fmt.Fscan(reader, &T)
 	for i := 0; i < T; i++ {
-		NB := readInts(reader)
-		N, B := NB[0], NB[1]
-		A := readInts(reader)
+		N, B := 0, 0
+		fmt.Fscan(reader, &N, &B)
+
+		A := make([]int, N)
+		for i := 0; i < N; i++ {
+			var a int
+			fmt.Fscan(reader, &a)
+			A[i] = a
+		}
 		c := 0
 		sort.Ints(A)
 		for j := 0; j < N; j++ {
@@ -26,52 +31,4 @@ func main() {
 		}
 		fmt.Printf("Case #%v: %v\n", i+1, c)
 	}
-}
-
-func NewReader() *bufio.Reader {
-	var fp *os.File = os.Stdin
-	return bufio.NewReaderSize(fp, 1024)
-}
-
-func readInt(reader *bufio.Reader) int {
-	buf := make([]byte, 0, 1024)
-
-	for {
-		l, p, _ := reader.ReadLine()
-
-		buf = append(buf, l...)
-		if !p {
-			break
-		}
-	}
-
-	num, err := strconv.Atoi(string(buf))
-	if err != nil {
-		panic(err)
-	}
-	return num
-}
-
-func readInts(reader *bufio.Reader) []int {
-	buf := make([]byte, 0, 1024)
-
-	for {
-		l, p, _ := reader.ReadLine()
-
-		buf = append(buf, l...)
-		if !p {
-			break
-		}
-	}
-
-	texts := strings.Split(string(buf), " ")
-	out := make([]int, len(texts))
-	for i := range texts {
-		num, err := strconv.Atoi(texts[i])
-		if err != nil {
-			panic(err)
-		}
-		out[i] = num
-	}
-	return out
 }
