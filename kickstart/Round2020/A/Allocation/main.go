@@ -6,18 +6,16 @@ import (
 	"os"
 	"sort"
 	"strconv"
+	"strings"
 )
 
 func main() {
-	sc := NewScanner()
-	T := sc.ReadInt()
+	reader := NewReader()
+	T := readInt(reader)
 	for i := 0; i < T; i++ {
-		N := sc.ReadInt()
-		B := sc.ReadInt()
-		A := make([]int, N)
-		for j := 0; j < N; j++ {
-			A[j] = sc.ReadInt()
-		}
+		NB := readInts(reader)
+		N, B := NB[0], NB[1]
+		A := readInts(reader)
 		c := 0
 		sort.Ints(A)
 		for j := 0; j < N; j++ {
@@ -30,25 +28,50 @@ func main() {
 	}
 }
 
-type Scanner struct {
-	bufScanner *bufio.Scanner
+func NewReader() *bufio.Reader {
+	var fp *os.File = os.Stdin
+	return bufio.NewReaderSize(fp, 1024)
 }
 
-func NewScanner() *Scanner {
-	bufSc := bufio.NewScanner(os.Stdin)
-	bufSc.Split(bufio.ScanWords)
-	bufSc.Buffer(nil, 100000000)
-	return &Scanner{bufSc}
-}
+func readInt(reader *bufio.Reader) int {
+	buf := make([]byte, 0, 1024)
 
-func (sc *Scanner) ReadInt() int {
-	bufSc := sc.bufScanner
-	bufSc.Scan()
-	text := bufSc.Text()
+	for {
+		l, p, _ := reader.ReadLine()
 
-	num, err := strconv.Atoi(text)
+		buf = append(buf, l...)
+		if !p {
+			break
+		}
+	}
+
+	num, err := strconv.Atoi(string(buf))
 	if err != nil {
 		panic(err)
 	}
 	return num
+}
+
+func readInts(reader *bufio.Reader) []int {
+	buf := make([]byte, 0, 1024)
+
+	for {
+		l, p, _ := reader.ReadLine()
+
+		buf = append(buf, l...)
+		if !p {
+			break
+		}
+	}
+
+	texts := strings.Split(string(buf), " ")
+	out := make([]int, len(texts))
+	for i := range texts {
+		num, err := strconv.Atoi(texts[i])
+		if err != nil {
+			panic(err)
+		}
+		out[i] = num
+	}
+	return out
 }
