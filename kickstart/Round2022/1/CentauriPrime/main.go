@@ -9,8 +9,7 @@ import (
 
 func solv(s string) string {
 	out := ""
-	t := strings.ToLower(s[len(s)-1:])
-	switch t {
+	switch strings.ToLower(s[len(s)-1:]) {
 	case "y":
 		out = "nobody"
 	case "a", "e", "i", "o", "u":
