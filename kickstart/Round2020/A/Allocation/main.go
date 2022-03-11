@@ -16,16 +16,16 @@ func main() {
 		fmt.Fscan(reader, &N, &B)
 
 		A := make([]int, N)
-		for i := 0; i < N; i++ {
+		for j := 0; j < N; j++ {
 			var a int
 			fmt.Fscan(reader, &a)
-			A[i] = a
+			A[j] = a
 		}
 		c := 0
 		sort.Ints(A)
-		for j := 0; j < N; j++ {
-			if A[j] <= B {
-				B -= A[j]
+		for k := 0; k < N; k++ {
+			if A[k] <= B {
+				B -= A[k]
 				c++
 			}
 		}
