@@ -15,12 +15,12 @@ func main() {
 		fmt.Fscan(reader, &N, &K, &P)
 
 		M := make([][]int, N)
-		for i := range M {
-			M[i] = make([]int, K)
+		for j := range M {
+			M[j] = make([]int, K)
 		}
-		for i := 0; i < N; i++ {
-			for j := 0; j < K; j++ {
-				fmt.Fscan(reader, &M[i][j])
+		for j := 0; j < N; j++ {
+			for k := 0; k < K; k++ {
+				fmt.Fscan(reader, &M[j][k])
 			}
 		}
 		dp := make([][]int, N+1)
@@ -28,16 +28,16 @@ func main() {
 			dp[i] = make([]int, P+1)
 		}
 		dp[0][0] = 0
-		for i := 0; i < N; i++ {
+		for j := 0; j < N; j++ {
 			// memcpy
-			for j := 0; j < len(dp[0]); j++ {
-				dp[i+1][j] = dp[i][j]
+			for k := 0; k < len(dp[0]); k++ {
+				dp[j+1][k] = dp[j][k]
 			}
 			s := 0
-			for j := 0; j < K; j++ {
-				s += M[i][j]
-				for l := 0; l+j+1 <= P; l++ {
-					dp[i+1][j+l+1] = max(dp[i][l]+s, dp[i+1][j+l+1])
+			for k := 0; k < K; k++ {
+				s += M[j][k]
+				for l := 0; l+k+1 <= P; l++ {
+					dp[j+1][k+l+1] = max(dp[j][l]+s, dp[j+1][k+l+1])
 				}
 			}
 		}
